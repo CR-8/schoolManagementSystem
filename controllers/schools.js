@@ -36,21 +36,35 @@ export function findSchool(req, res) {
 }
 
 export function listSchool(req, res) {
-    const { latitude, longitude } = req.params;
-    
+    const { latitude, longitude } = req.body;
+
+    if (
+        latitude === undefined ||
+        longitude === undefined ||
+        isNaN(parseFloat(latitude)) ||
+        isNaN(parseFloat(longitude))
+    ) {
+        return res.status(400).json({ error: "Valid latitude and longitude are required as query parameters." });
+    }
+
+    const userLat = parseFloat(latitude);
+    const userLong = parseFloat(longitude);
+
     const query = "SELECT * FROM schools";
+
     db.query(query, (err, results) => {
         if (err) {
             return res.status(500).json({ error: "Database error" });
         }
-        
-        const filteredSchools = results.filter(school => {
-            const dist = calcDist(latitude, longitude, school.latitude, school.longitude);
-            school.distance = dist;
-            return dist <= 25;
-        }).sort(); 
-            res.json({ schools: filteredSchools });
 
+        const sortedSchools = results
+            .map(school => ({
+                ...school,
+                distance: calcDist(userLat, userLong, school.latitude, school.longitude)
+            }))
+            .sort((a, b) => a.distance - b.distance);
+
+        res.json({ schools: sortedSchools });
     });
 }
 
