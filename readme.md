@@ -14,7 +14,7 @@ A Node.js REST API for managing school data with location-based features. This A
 
 - Node.js (v14 or higher)
 - MySQL Database
-- npm or yarn package manager
+- npm package manager
 
 ## 🛠️ Installation
 
@@ -199,7 +199,7 @@ The API includes comprehensive error handling for:
 ### Using Postman
 
 1. Import the provided Postman collection
-2. Set base URL to `http://localhost:3000`
+2. Set base URL to `http://localhost:6278`
 3. Test each endpoint with sample data
 
 ### Sample Test Data
@@ -217,24 +217,8 @@ The API includes comprehensive error handling for:
 
 - All required fields are validated
 - Latitude and longitude must be valid numbers
-- Input sanitization prevents SQL injection
 
 ## 🐛 Known Issues
 
-- Table name mismatch: Ensure your database table is named `schoolsTable`
-- Route order: Specific routes must come before generic ones
-
-## 📝 License
-
-This project is licensed under the MIT License.
-
-## 👥 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## 📞 Support
-
-For issues and questions, please create an issue in the repository.
+- Table name mismatch: Ensure your database table is named `schools`
+- Route order: Specific routes must come before generic ones as `/schools`
