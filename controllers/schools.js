@@ -36,7 +36,7 @@ export function findSchool(req, res) {
 }
 
 export function listSchool(req, res) {
-    const { latitude, longitude } = req.body;
+    const { latitude, longitude } = req.query;
 
     if (
         latitude === undefined ||
@@ -44,7 +44,7 @@ export function listSchool(req, res) {
         isNaN(parseFloat(latitude)) ||
         isNaN(parseFloat(longitude))
     ) {
-        return res.status(400).json({ error: "Valid latitude and longitude are required as query parameters." });
+        return res.json({ error: "Valid latitude and longitude are required as query parameters." });
     }
 
     const userLat = parseFloat(latitude);
@@ -54,7 +54,7 @@ export function listSchool(req, res) {
 
     db.query(query, (err, results) => {
         if (err) {
-            return res.status(500).json({ error: "Database error" });
+            return res.json({ error: "Database error" });
         }
 
         const sortedSchools = results
